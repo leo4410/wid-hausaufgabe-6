@@ -73,20 +73,22 @@ function MainformComponent() {
         ></WgsformComponent>
       )}
 
-      <Button
-        variant="contained"
-        disabled={
-          (transformation === 1 && east !== "" && north !== "") ||
-          (transformation === 2 && xcoord !== "" && ycoord !== "")
-            ? false
-            : true
-        }
-        onClick={() => {
-          fetchResult();
-        }}
-      >
-        Transformieren
-      </Button>
+      <div>
+        <Button
+          variant="contained"
+          disabled={
+            (transformation === 1 && east !== "" && north !== "") ||
+            (transformation === 2 && xcoord !== "" && ycoord !== "")
+              ? false
+              : true
+          }
+          onClick={() => {
+            fetchResult();
+          }}
+        >
+          Transformieren
+        </Button>
+      </div>
 
       {transformation === 2 && result.length > 0 && (
         <LvresultComponent
