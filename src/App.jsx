@@ -1,7 +1,8 @@
 import Typography from "@mui/material/Typography";
+import MainformComponent from "./component/form/MainformComponent";
 
 function App() {
-  return <Typography variant="h3">Hello React + MUI!</Typography>;
+  return <MainformComponent></MainformComponent>
 }
 
 export default App;
