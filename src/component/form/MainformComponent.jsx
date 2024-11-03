@@ -1,4 +1,11 @@
-import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Alert,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { useState } from "react";
 import WgsformComponent from "./WgsformComponent";
 import WgsresultComponent from "../result/WgsresultComponent";
@@ -9,15 +16,17 @@ const SWISSTOPO_URL = "https://geodesy.geo.admin.ch/reframe/";
 
 function MainformComponent() {
   const [transformation, setTransformation] = useState(1);
+  const [result, setResult] = useState([]);
+  const [error, setError] = useState("");
   const [east, setEast] = useState("");
   const [north, setNorth] = useState("");
   const [xcoord, setXcoord] = useState("");
   const [ycoord, setYcoord] = useState("");
-  const [result, setResult] = useState([]);
 
   function onTransformationChange(value) {
     setTransformation(value);
     setResult([]);
+    setError([]);
     setEast("");
     setNorth("");
     setYcoord("");
@@ -34,8 +43,13 @@ function MainformComponent() {
     }
 
     var responsedata = await fetch(query);
-    var jsondata = await responsedata.json();
-    setResult(jsondata.coordinates);
+
+    if (responsedata.status === 200) {
+      var jsondata = await responsedata.json();
+      setResult(jsondata.coordinates);
+    } else {
+      setError([responsedata.status]);
+    }
   }
 
   return (
@@ -102,6 +116,12 @@ function MainformComponent() {
           xcoordinate={result[1]}
           ycoordinate={result[0]}
         ></WgsresultComponent>
+      )}
+
+      {error.length > 0 && (
+        <Alert variant="outlined" severity="error">
+          Status Code {error} occured!.
+        </Alert>
       )}
     </>
   );
